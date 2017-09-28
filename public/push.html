@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+        <script>            
+            var connect = function () {
+                
+                var connectPort = document.getElementById('input-port').value;
+                var connectAddress = document.getElementById('input-address').value;
+                
+                connectServer(connectAddress,connectPort);
+                
+            }
+            
+            
+            var connectServer = function (host,port) {
+                
+                var options = {'forceNew':true};
+                var url = 'http://' + host + ':' + port;
+                socket = io.connect(url, options);
+                
+                socket.on('connect', function() {
+                	println(url + "에 연결 됨");
+
+                    socket.on('message', function(message) {
+                        console.log(JSON.stringify(message));
+                        println('<p>수신 메시지 : ' + message.title + ', ' + message.message + '</p>');
+                    });
+
+                    socket.on('response', function(response) {
+                    	console.log(JSON.stringify(response));
+                    	println('메시지를 보냈습니다. : ' + response.command + ', ' + response.code + ', ' + response.message);
+                    });
+                    
+                });
+
+                socket.on('disconnect', function() {
+                    println('연결 종료');
+                });
+
+                function println(data) {
+				console.log(data);
+                document.getElementById('check').innerHTML += '<p>' + data + '</p>';
+			}
+                
+            }
+            
+            var sendPushMessage = function () {
+                var push_title = document.getElementById('push-title').value;
+                var push_txt = document.getElementById('push-txt').value;
+                var check_title = document.getElementById('check-title').value;
+                var check_txt = document.getElementById('check-txt').value;
+                
+//                var output = {sender:sender, recepient:recepient, command:'chat', type:'text', data:data};
+                var output = {push_title : push_title, push_message : push_txt, check_title : check_title, check_message : check_txt};
+                    console.log('서버로 보낼 데이터 : ' + JSON.stringify(output));
+
+                    if (socket == undefined) {
+                        alert('서버에 연결되어 있지 않습니다. 먼저 서버에 연결하세요.');
+                        return;
+                    }
+
+                    socket.emit('message', output);
+            }
+            
+        </script>
+    </head>
+    
+    <body>
+       
+        포트 : <input type="text" id = "input-port" value = "8090">
+        <br>
+        주소 : <input type="text" id = "input-address" value = "japan-okyo.c9users.io">
+        <input type="button" value = "연결하기" onclick="connect()">
+        <br>
+        <br>
+        push_title : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id = "push-title">
+        <br>
+        push_message : &nbsp;<textarea name="" id="push-txt" cols="30" rows="3"></textarea>
+        <br>
+        check_title : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id = "check-title">
+        <br>
+        check_message : <textarea name="" id="check-txt" cols="30" rows="3"></textarea>
+        <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="button" value = "메시지 전송" onclick="sendPushMessage()">
+        <div id = "check"></div>
+
+        
+    </body>
+</html>

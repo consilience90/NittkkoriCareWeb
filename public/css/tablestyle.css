@@ -1,0 +1,81 @@
+/* DIV object */
+.redips-drag {
+	border: 2px solid pink;
+	margin: auto;
+	text-align: center;
+	width: 150px;
+	height: 35px;
+	line-height: 35px;
+	background-color: white;
+	font-size: 10pt; /* needed for cloned object */
+	/* round corners */
+	border-radius: 4px; /* Opera, Chrome */
+	-moz-border-radius: 4px; /* FF */
+	margin-bottom: 3px;
+
+}
+
+/* tables */
+#table1 {
+	border: 0px solid white;
+	background-color: white;
+
+}
+	/* table cells */
+	#table1 td{
+		border: 0px solid white;
+		text-align: center;
+		font-size: 10pt;
+		padding: 0px;
+	}
+	table#table1 td {
+		height: 60px;
+	}
+
+
+	/* tables */
+	#table2{
+		border: 0px solid white;
+		background-color: white;
+
+	}
+		/* table cells */
+		#table2 td{
+			border: 0px solid white;
+			text-align: center;
+			font-size: 10pt;
+			padding: 0px;
+		}
+		table#table2 td {
+			height: 60px;
+		}
+
+		#table3{
+			border: 0px solid white;
+			background-color: white;
+
+		}
+			/* table cells */
+			#table3 td{
+				border: 0px solid white;
+				text-align: center;
+				font-size: 10pt;
+				padding: 0px;
+			}
+			table#table3 td {
+				height: 60px;
+			}
+
+
+/* message below tables */
+#message {
+	padding-left: 10px;
+	color: #6A93D4;
+	height: 100px;
+	padding-top: 20px;
+}
+
+/* single content cells (with clone objects on the left) */
+.redips-single {
+	background-color: white;
+}
